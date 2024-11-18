@@ -309,7 +309,7 @@ def send_mail(subject, message, emails):
         arquivo.write(message)
     
     yag.send(
-        to=['tiago.americano.03@gmail.com']+emails,
+        to=emails,
         subject=subject,
         contents='Segue o relatório',
         attachments=[html_file]  # Anexa o PDF gerado
@@ -324,9 +324,9 @@ for id in novos_ids:
     subject = f"Relatório Coach Invisível {datetime.fromisoformat(transcript['meet_date']).strftime('%d/%m/%Y')}"
     
     response = (
-        supabase.table("user_assistants_view")
+        supabase.table("users")
         .select("*")
-        .in_("user_id", transcript['speakers'])
+        .in_("id", transcript['speakers'])
         .execute()
     )
     emails_unicos = set()  # Conjunto para evitar e-mails duplicados
